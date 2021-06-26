@@ -1,8 +1,10 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import "bootstrap/dist/js/bootstrap.bundle";
-import "./index.scss";
 
+import "bootstrap/dist/js/bootstrap.bundle";
+
+import "./index.scss";
+import "./i18n";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
