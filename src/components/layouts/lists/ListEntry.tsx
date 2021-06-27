@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import React from "react";
 import styles from "./ListEntry.module.scss";
-import iconImage from "./../../../assets/images/large.svg";
 import { ListItem } from "../../../api/types/list";
+import { getImageUrl } from "../../../utils/ImageUrlUtils";
 
 interface ListEntryProps {
   listItem: ListItem;
@@ -21,7 +21,11 @@ const ListEntry: React.FC<ListEntryProps> = (props) => {
       onClick={() => props.onSelect(props.listItem._id)}
     >
       <div className="w-100 d-flex justify-content-start align-items-center">
-        <img className="" src={iconImage} alt="icon for extra" />
+        <img
+          className=""
+          src={getImageUrl(props.listItem.value)}
+          alt="icon for extra"
+        />
         <span className={clsx(styles.listText, "text-white text-wrap")}>
           {props.listItem.value}
         </span>

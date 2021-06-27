@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./ListExpandedEntry.module.scss";
 import iconImage from "./../../../assets/images/large.svg";
 import { ListItem } from "../../../api/types/list";
+import { getImageUrl } from "../../../utils/ImageUrlUtils";
 
 interface ListExpandedEntryProps {
   listItem: ListItem;
@@ -91,7 +92,11 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
         className="w-100 d-flex justify-content-start align-items-center"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <img className="" src={iconImage} alt="icon for extra" />
+        <img
+          className=""
+          src={getImageUrl(props.listItem.value)}
+          alt="icon for extra"
+        />
         <span className={clsx(styles.listText, "text-white text-wrap")}>
           {props.listItem.value}
         </span>
