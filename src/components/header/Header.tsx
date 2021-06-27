@@ -12,6 +12,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
+  /**
+   * Header back button based on sent props
+   */
   const renderBackButton = () => {
     return (
       <span

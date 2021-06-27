@@ -30,8 +30,6 @@ const LoadingPlaceholder: React.FC<LoadingPlaceholderProps> = (props) => {
       <div
         className={clsx("spinner-border", {
           "text-primary": props.color === "secondary",
-          "text-white": props.color === "primary",
-          "text-grey-2": props.color === "white",
         })}
         style={{
           width: iconSize,

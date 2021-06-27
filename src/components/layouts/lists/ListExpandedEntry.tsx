@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import styles from "./ListExpandedEntry.module.scss";
-import iconImage from "./../../../assets/images/large.svg";
 import { ListItem } from "../../../api/types/list";
 import { getImageUrl } from "../../../utils/ImageUrlUtils";
 
@@ -14,6 +13,10 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
+  /**
+   * Detect when an option has been selected and send Selection info back to Calling Component
+   * Response format: {id: Selected Extra, subSelectionId: selected Subitem in that extra }
+   */
   useEffect(() => {
     if (selectedOption !== "") {
       props.onSelect({
@@ -26,6 +29,9 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
 
   if (!props) return null;
 
+  /**
+   * Render the second level List Group
+   */
   const renderSubList = () => {
     return (
       <React.Fragment>
@@ -44,6 +50,11 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
     );
   };
 
+  /**
+   * Render the second level individual List Item
+   * Updates selected option on click
+   * @param subItem
+   */
   const renderSubListItem = (subItem: ListItem) => {
     return (
       <li
@@ -80,6 +91,10 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
     );
   };
 
+  /**
+   * Render First Level List group and Item
+   * Toggle expanded on or off.
+   */
   return (
     <li
       className={clsx(

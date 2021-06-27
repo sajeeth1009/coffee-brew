@@ -10,7 +10,9 @@ interface ListEntryProps {
 }
 
 const ListEntry: React.FC<ListEntryProps> = (props) => {
-  if (!props) return null;
+  /**
+   * Render Single Level List
+   */
   return (
     <li
       className={clsx(

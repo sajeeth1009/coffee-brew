@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ListItem } from "../../../api/types/list";
 import ListEntry from "./ListEntry";
 import ListExpandedEntry from "./ListExpandedEntry";
@@ -14,6 +14,9 @@ interface ListLayoutProps {
 }
 
 const ListLayout: React.FC<ListLayoutProps> = (props) => {
+  /**
+   * Render a single Level list.
+   */
   const renderSimpleList = () => {
     return props.listItems.map((item) => {
       if (!props.onSelect) return null;
@@ -23,6 +26,9 @@ const ListLayout: React.FC<ListLayoutProps> = (props) => {
     });
   };
 
+  /**
+   * Render a Two level expandable List
+   */
   const renderExpandableList = () => {
     return props.listItems.map((item) => {
       if (!props.onExpandedSelect) return null;
