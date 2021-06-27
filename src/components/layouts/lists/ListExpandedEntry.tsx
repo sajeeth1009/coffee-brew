@@ -70,6 +70,7 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
         >
           <span
             className={clsx(
+              styles.subListText,
               "d-flex justify-content-start text-wrap text-white"
             )}
           >
@@ -77,7 +78,10 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
           </span>
           <div className="form-check">
             <input
-              className="form-check-input bg-shaded-green rounded-circle border-2 border-white m-0"
+              className={clsx(
+                styles.cursorPointer,
+                "form-check-input bg-shaded-green rounded-circle border-2 border-white m-0"
+              )}
               type="checkbox"
               name={props.listItem._id}
               id={subItem._id}
@@ -110,7 +114,7 @@ const ListExpandedEntry: React.FC<ListExpandedEntryProps> = (props) => {
         <img
           className=""
           src={getImageUrl(props.listItem.value)}
-          alt="icon for extra"
+          alt="list icon"
         />
         <span className={clsx(styles.listText, "text-white text-wrap")}>
           {props.listItem.value}

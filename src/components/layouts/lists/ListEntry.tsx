@@ -26,7 +26,7 @@ const ListEntry: React.FC<ListEntryProps> = (props) => {
         <img
           className=""
           src={getImageUrl(props.listItem.value)}
-          alt="icon for extra"
+          alt="list icon"
         />
         <span className={clsx(styles.listText, "text-white text-wrap")}>
           {props.listItem.value}

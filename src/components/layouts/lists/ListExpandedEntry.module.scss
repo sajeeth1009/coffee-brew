@@ -6,6 +6,7 @@
   cursor: pointer;
 }
 .listText {
+  font-size: 0.875rem;
   margin-left: 1.25rem;
 }
 .subList {
@@ -13,5 +14,12 @@
 }
 .subListItem {
   border-radius: 0.5rem !important;
+  cursor: pointer;
+}
+.subListText {
+  font-size: 0.875rem;
+}
+
+.cursorPointer {
   cursor: pointer;
 }
