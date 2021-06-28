@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom";
 
 import { getCoffeeMenuRequest } from "../../api/coffeeMachineAPI";
 import {
@@ -11,19 +12,24 @@ import {
 } from "../../api/types/coffeeMenu";
 import { ListItem } from "../../api/types/list";
 import { useFetchMachineId } from "../../hooks/useFetchMachineId";
+import Dialog from "../displays/CompletedDialog";
 import LoadingPlaceholder from "../displays/LoadingScreen";
 import CoffeeGenericLayout from "../layouts/GenericLayout";
 
 interface BrewProps {}
-const Brew: React.FC<BrewProps> = () => {
+const Brew: React.FC<BrewProps> = (props) => {
   const { t } = useTranslation(["brew"]);
+  const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [orderCompleted, setOrderCompleted] = useState(false);
+
   const [coffeeMenu, setCoffeeMenu] = useState<CoffeeMenu>();
   const [coffeeType, setCoffeeType] = useState<CoffeeType>();
   const [coffeeSize, setCoffeeSize] = useState<CoffeeSize>();
   const [coffeeExtras, setCoffeeExtras] = useState<SelectedCoffeeExtra[]>([]);
+
+  const [finalOrder, setFinalOrder] = useState("");
   const machineId: string = useFetchMachineId();
 
   /**
@@ -62,14 +68,14 @@ const Brew: React.FC<BrewProps> = () => {
    */
   const printOrderDetails = () => {
     if (orderCompleted) {
-      console.log(
-        `Completed Order: \n Type: ${coffeeType?.name} \n Size: ${coffeeSize?.name} \n Extras: \n`
-      );
+      let finalOrder = `Completed Order: \n Type: ${coffeeType?.name} \n Size: ${coffeeSize?.name} \n Extras: \n`;
       coffeeExtras.forEach((extra) => {
-        console.log(
-          `|Name: ${extra.name}, selection: ${extra.subselections.name}| \n `
-        );
+        finalOrder +=
+          finalOrder +
+          `|Name: ${extra.name}, selection: ${extra.subselections.name}| \n `;
       });
+      setFinalOrder(finalOrder);
+      return finalOrder;
     }
   };
 
@@ -222,7 +228,15 @@ const Brew: React.FC<BrewProps> = () => {
   };
 
   return (
-    <React.Fragment>{loading ? loadingContent() : renderMenu()}</React.Fragment>
+    <React.Fragment>
+      {loading ? loadingContent() : renderMenu()}
+      <Dialog
+        open={orderCompleted}
+        title={t("orderCompleted")}
+        content={finalOrder}
+        onConfirm={() => history.push("/brew")}
+      />
+    </React.Fragment>
   );
 };
 

@@ -2,5 +2,6 @@
   "title": "Brew with Lex",
   "styleCaption": "Select your style",
   "sizeCaption": "Select your size",
-  "extrasCaption": "Select your extra's"
+  "extrasCaption": "Select your extra's",
+  "orderCompleted": "Your order is complete!"
 }

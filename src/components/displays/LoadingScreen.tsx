@@ -21,9 +21,7 @@ const LoadingPlaceholder: React.FC<LoadingPlaceholderProps> = (props) => {
       className={clsx(
         "d-flex align-items-center justify-content-center h-100 ",
         `bg-${props.color}`,
-        {
-          "vh-100": props.minHeight === "vh-100",
-        }
+        { "vh-100": props.minHeight === "vh-100" }
       )}
       style={{ minHeight: props.minHeight }}
     >
