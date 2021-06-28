@@ -1,5 +1,6 @@
-import clsx from "clsx";
 import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+
 import styles from "./ListExpandedEntry.module.scss";
 import { ListItem } from "../../../api/types/list";
 import { getImageUrl } from "../../../utils/ImageUrlUtils";

@@ -12,7 +12,7 @@ import {
 } from "../../api/types/coffeeMenu";
 import { ListItem } from "../../api/types/list";
 import { useFetchMachineId } from "../../hooks/useFetchMachineId";
-import Dialog from "../displays/CompletedDialog";
+import Dialog from "../displays/Dialog";
 import LoadingPlaceholder from "../displays/LoadingScreen";
 import CoffeeGenericLayout from "../layouts/GenericLayout";
 
@@ -29,6 +29,7 @@ const Brew: React.FC<BrewProps> = (props) => {
   const [coffeeSize, setCoffeeSize] = useState<CoffeeSize>();
   const [coffeeExtras, setCoffeeExtras] = useState<SelectedCoffeeExtra[]>([]);
 
+  const [displayOrder, setDisplayOrder] = useState(false);
   const [finalOrder, setFinalOrder] = useState("");
   const machineId: string = useFetchMachineId();
 
@@ -68,13 +69,15 @@ const Brew: React.FC<BrewProps> = (props) => {
    */
   const printOrderDetails = () => {
     if (orderCompleted) {
-      let finalOrder = `Completed Order: \n Type: ${coffeeType?.name} \n Size: ${coffeeSize?.name} \n Extras: \n`;
+      setFinalOrder("");
+      let finalOrder = `|Type: ${coffeeType?.name} | Size: ${coffeeSize?.name} | Extras: \n`;
       coffeeExtras.forEach((extra) => {
-        finalOrder +=
-          finalOrder +
-          `|Name: ${extra.name}, selection: ${extra.subselections.name}| \n `;
+        finalOrder = finalOrder.concat(
+          ` ==> Name: ${extra.name}, selection: ${extra.subselections.name} \n `
+        );
       });
       setFinalOrder(finalOrder);
+      setDisplayOrder(true);
       return finalOrder;
     }
   };
@@ -98,6 +101,8 @@ const Brew: React.FC<BrewProps> = (props) => {
    */
   const resetSize = () => {
     setCoffeeSize(undefined);
+    setCoffeeExtras([]);
+    setFinalOrder("");
   };
 
   /**
@@ -164,6 +169,24 @@ const Brew: React.FC<BrewProps> = (props) => {
     return extra?.subselections.find((sub) => sub._id === subSelectionId);
   };
 
+  const closeModal = () => {
+    setDisplayOrder(false);
+  };
+
+  const resetState = () => {
+    setOrderCompleted(false);
+    setCoffeeType(undefined);
+    setCoffeeSize(undefined);
+    setCoffeeExtras([]);
+    setDisplayOrder(false);
+    setFinalOrder("");
+  };
+
+  const confirmModal = () => {
+    resetState();
+    history.push("/");
+  };
+
   /**
    * Generate Layouts for Select Type page, Select Size Page and Select Extras page
    */
@@ -227,15 +250,22 @@ const Brew: React.FC<BrewProps> = (props) => {
     );
   };
 
-  return (
-    <React.Fragment>
-      {loading ? loadingContent() : renderMenu()}
+  const renderDialog = () => {
+    return (
       <Dialog
         open={orderCompleted}
         title={t("orderCompleted")}
         content={finalOrder}
-        onConfirm={() => history.push("/brew")}
+        onConfirm={confirmModal}
+        onClose={closeModal}
       />
+    );
+  };
+
+  return (
+    <React.Fragment>
+      {loading ? loadingContent() : renderMenu()}
+      {displayOrder ? renderDialog() : null}
     </React.Fragment>
   );
 };
