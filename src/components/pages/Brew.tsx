@@ -30,7 +30,6 @@ const Brew: React.FC<BrewProps> = (props) => {
   const [coffeeExtras, setCoffeeExtras] = useState<SelectedCoffeeExtra[]>([]);
 
   const [displayOrder, setDisplayOrder] = useState(false);
-  const [finalOrder, setFinalOrder] = useState("");
   const machineId: string = useFetchMachineId();
 
   /**
@@ -56,29 +55,20 @@ const Brew: React.FC<BrewProps> = (props) => {
   }, [machineId]);
 
   /**
-   * Test if order is complete and print result to console.
+   * Test if order is complete and print result to dialog.
    */
   useEffect(() => {
     setOrderCompleted(coffeeExtras.length === coffeeType?.extras.length);
-    printOrderDetails();
+    showOrderCompletedDialog();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coffeeExtras, orderCompleted]);
 
   /**
-   * Helper method to print completed order to console.
+   * Helper method to toggle completed order dialog.
    */
-  const printOrderDetails = () => {
+  const showOrderCompletedDialog = () => {
     if (orderCompleted) {
-      setFinalOrder("");
-      let finalOrder = `|Type: ${coffeeType?.name} | Size: ${coffeeSize?.name} | Extras: \n`;
-      coffeeExtras.forEach((extra) => {
-        finalOrder = finalOrder.concat(
-          ` ==> Name: ${extra.name}, selection: ${extra.subselections.name} \n `
-        );
-      });
-      setFinalOrder(finalOrder);
       setDisplayOrder(true);
-      return finalOrder;
     }
   };
 
@@ -102,7 +92,6 @@ const Brew: React.FC<BrewProps> = (props) => {
   const resetSize = () => {
     setCoffeeSize(undefined);
     setCoffeeExtras([]);
-    setFinalOrder("");
   };
 
   /**
@@ -179,7 +168,6 @@ const Brew: React.FC<BrewProps> = (props) => {
     setCoffeeSize(undefined);
     setCoffeeExtras([]);
     setDisplayOrder(false);
-    setFinalOrder("");
   };
 
   const confirmModal = () => {
@@ -255,7 +243,9 @@ const Brew: React.FC<BrewProps> = (props) => {
       <Dialog
         open={orderCompleted}
         title={t("orderCompleted")}
-        content={finalOrder}
+        type={coffeeType}
+        size={coffeeSize}
+        extras={coffeeExtras}
         onConfirm={confirmModal}
         onClose={closeModal}
       />

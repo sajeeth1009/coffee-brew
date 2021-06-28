@@ -1,11 +1,19 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Modal } from "react-bootstrap";
+import {
+  CoffeeType,
+  CoffeeSize,
+  SelectedCoffeeExtra,
+} from "../../api/types/coffeeMenu";
 
 interface DialogProps {
   open: boolean;
   title: string;
-  content: string;
+  type?: CoffeeType;
+  size?: CoffeeSize;
+  extras?: SelectedCoffeeExtra[];
+  content?: string;
   onConfirm: () => void;
   onClose: () => void;
 }
@@ -28,7 +36,25 @@ const Dialog: React.FC<DialogProps> = (props) => {
             {props.title}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>{props.content}</Modal.Body>
+        <Modal.Body>
+          <p>
+            <span className="fw-bold">Type</span>: {props.type?.name}
+          </p>
+          <p>
+            <span className="fw-bold">Size</span>: {props.size?.name}
+          </p>
+          <p>
+            <span className="fw-bold">Extras:</span>
+          </p>
+
+          {props.extras?.map((extra) => {
+            return (
+              <p className="pl-1" key={extra._id}>
+                <span>{extra.name}</span>: {extra.subselections.name}
+              </p>
+            );
+          })}
+        </Modal.Body>
         <Modal.Footer className="border-0">
           <button
             type="button"
