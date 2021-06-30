@@ -33,25 +33,23 @@ const Brew: React.FC<BrewProps> = (props) => {
   const machineId: string = useFetchMachineId();
 
   /**
-   * Call to fetch Menu based on Machine ID
-   */
-  const fetchCoffeeMenu = async () => {
-    setLoading(true);
-    try {
-      const menu = (await getCoffeeMenuRequest(machineId)).data;
-      setCoffeeMenu(menu);
-    } catch (e) {
-      console.log(`Failed to fetch machine menu ${e}`);
-    }
-    setLoading(false);
-  };
-
-  /**
    * Call the menu API method when machineId changes
    */
   useEffect(() => {
+    /**
+     * Call to fetch Menu based on Machine ID
+     */
+    const fetchCoffeeMenu = async () => {
+      setLoading(true);
+      try {
+        const menu = (await getCoffeeMenuRequest(machineId)).data;
+        setCoffeeMenu(menu);
+      } catch (e) {
+        console.log(`Failed to fetch machine menu ${e}`);
+      }
+      setLoading(false);
+    };
     fetchCoffeeMenu();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [machineId]);
 
   /**
